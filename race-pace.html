@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
 
     <title>Pace Converter</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 
     <!-- Custom styles for this template -->
     <style>
@@ -23,24 +24,30 @@
           padding-top: 56px;
         }
       }
-
     </style>
-
   </head>
 
   <body>
-
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
         <a class="navbar-brand" href="#">Pace Converter</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarResponsive"
+          aria-controls="navbarResponsive"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="#">Home
+              <a class="nav-link" href="#"
+                >Home
                 <span class="sr-only">(current)</span>
               </a>
             </li>
@@ -60,38 +67,69 @@
           <p class="lead">Minutes per km to minutes per mile and vice versa</p>
           <div class="container">
             <div class="row justify-content-sm-center">
-                <div class="col-sm-auto">
-                    <select class="form-control" id="minKm">
-                        
-                    </select>
-                </div>
-                <div class="col-sm-auto">:</div>
-                <div class="col-sm-auto">
-                    <select class="form-control" id="secKm">
-                            
-                    </select>
-                </div>
-                <div class="col-sm-auto">per km</div>
+              <div class="col-sm-auto">
+                <select class="form-control" id="minKm"></select>
+              </div>
+              <div class="col-sm-auto">:</div>
+              <div class="col-sm-auto">
+                <select class="form-control" id="secKm"></select>
+              </div>
+              <div class="col-sm-auto">per km</div>
             </div>
             <div class="row justify-content-sm-center">
-                <div class="col-sm">
-                    <input type="range" name="points" min="0" max="10" class="form-control" id="slider">
-                </div>
+              <div class="col-sm">
+                <input
+                  type="range"
+                  name="points"
+                  min="0"
+                  max="10"
+                  class="form-control"
+                  id="slider"
+                />
+              </div>
             </div>
             <div class="row justify-content-sm-center">
-                    <div class="col-sm-auto">
-                        <select class="form-control" id="minMi">
-                            
-                        </select>
-                    </div>
-                    <div class="col-sm-auto">:</div>
-                    <div class="col-sm-auto">
-                        <select class="form-control" id="secMi">
-                                
-                        </select>
-                    </div>
-                    <div class="col-sm-auto">per mi</div>
-                </div>
+              <div class="col-sm-auto">
+                <select class="form-control" id="minMi"></select>
+              </div>
+              <div class="col-sm-auto">:</div>
+              <div class="col-sm-auto">
+                <select class="form-control" id="secMi"></select>
+              </div>
+              <div class="col-sm-auto">per mi</div>
+            </div>
+            <div class="row align-items-center mt-5">
+              <div class="col-sm-auto d-flex align-items-center">
+                <label for="5k" class="font-weight-bold">5k time:</label>
+              </div>
+              <div class="col-sm-auto">
+                <label id="fivektime">00:00</label>
+              </div>
+            </div>
+            <div class="row align-items-center mt-5">
+              <div class="col-sm-auto d-flex align-items-center">
+                <label for="10k" class="font-weight-bold" >10k time:</label>
+              </div>
+              <div class="col-sm-auto justify-content-center">
+                <label id="tenktime">00:00</label>
+              </div>
+            </div>
+            <div class="row align-items-center mt-5">
+              <div class="col-sm-auto d-flex align-items-center">
+                <label for="half" class="font-weight-bold">Half-Marathon time:</label>
+              </div>
+              <div class="col-sm-auto justify-content-center">
+                <label id="halftime">00:00</label>
+              </div>
+            </div>
+            <div class="row align-items-center mt-5">
+              <div class="col-sm-auto d-flex align-items-center">
+                <label for="full" class="font-weight-bold">Marathon time:</label>
+              </div>
+              <div class="col-sm-auto justify-content-center">
+                <label id="fulltime">00:00</label>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -101,92 +139,146 @@
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script>
-        const MI_TO_KM = 1.609344;
-    addToSelect = function(range, select) {
+      const MI_TO_KM = 1.609344;
+      const HALF_DISTANCE = 21.0975;
+      const FULL_DISTANCE = 42.195;
+
+      function formatTime(number) {
+        number = Math.floor(number);
+        let numberString = number.toString();
+
+        if (numberString.length === 1) {
+          numberString = "0" + numberString;
+        }
+
+        return numberString;
+      }
+
+      addToSelect = function (range, select) {
         let items = [];
         for (let i = 0; i <= range; i++) {
-            items.push({value: i, text: `${i}`.padStart(2, "0")});
+          items.push({ value: i, text: `${i}`.padStart(2, "0") });
         }
 
         $.each(items, function (i, item) {
-            select.append($('<option>', { 
-                value: item.value,
-                text : item.text 
-            }));
+          select.append(
+            $("<option>", {
+              value: item.value,
+              text: item.text,
+            })
+          );
         });
-    }
+      };
 
-    recompute = function(unit) {
-        if (unit === 'km') {
-            let sec = parseInt($('#secKm').val());
-            let min = parseInt($('#minKm').val());
-            $('#slider').val(min*60 + sec);
+      getDistanceTimeStr = function(time) {
+        let sec = time % 60
+        let min = time / 60
+        let hour = Math.floor(min / 60)
 
-            let time = Math.round((min*60+sec)*MI_TO_KM);
-            console.log(time);
-            let minMi = Math.floor(time / 60);
-            let secMi = time % 60;
-            console.log(`${minMi}:${secMi}`);
-            $('#minMi').val(minMi);
-            $('#secMi').val(secMi);
-        } else {
-            let sec = parseInt($('#secMi').val());
-            let min = parseInt($('#minMi').val());
-            let time = Math.round((min*60+sec)/MI_TO_KM);
+        min = min - (hour * 60)
 
-            console.log(time);
-            let minKm = Math.floor(time / 60);
-            let secKm = time % 60;
-            $('#minKm').val(minKm);
-            $('#secKm').val(secKm);
-
-            $('#slider').val(minKm*60 + secKm);
+        if (hour === 0) {
+          return `${formatTime(min)}:${formatTime(sec)}`
         }
-    }
-    
-    addToSelect(20, $('#minKm'));
-    addToSelect(59, $('#secKm'));
-    addToSelect(33, $('#minMi'));
-    addToSelect(59, $('#secMi'));
 
-    $('#slider').attr("max", 21*60-1);
-    $('#slider').val(0);
+        return `${hour}H${formatTime(min)}:${formatTime(sec)}`
+      }
 
-    $('#minKm').on('input', () => {
-        let val = $('#minKm').val();
+      recompute = function (unit) {
+        let kmPace = 0
+        let kmMin = 0
+        let kmSec = 0
+
+        if (unit === "km") {
+          kmSec = parseInt($("#secKm").val());
+          kmMin = parseInt($("#minKm").val());
+          kmPace = kmMin * 60 + kmSec;
+          console.log(kmPace);
+
+          let milePace = Math.round(kmPace * MI_TO_KM);
+          let mileMin = Math.floor(milePace / 60);
+          let mileSec = milePace % 60;
+          console.log(`${mileMin}:${mileSec}`);
+
+          $("#minMi").val(mileMin);
+          $("#secMi").val(mileSec);
+        } else {
+          // unit === mi
+          let mileSec = parseInt($("#secMi").val());
+          let mileMin = parseInt($("#minMi").val());
+          let milePace = mileMin * 60 + mileSec;
+          console.log(milePace);
+
+          kmPace = Math.round(milePace / MI_TO_KM);
+          kmMin = Math.floor(kmPace / 60);
+          kmSec = kmPace % 60;
+
+          $("#minKm").val(kmMin);
+          $("#secKm").val(kmSec);
+        }
+
+        let fivektime = 5 * kmPace;
+        let tenktime = 10 * kmPace;
+        let halftime = HALF_DISTANCE * kmPace;
+        let fulltime = FULL_DISTANCE * kmPace;
+
+        $("#fivektime").text(
+          `${getDistanceTimeStr(fivektime)}`
+        );
+        $("#tenktime").text(
+          `${getDistanceTimeStr(tenktime)}`
+        );
+        $("#halftime").text(
+          `${getDistanceTimeStr(halftime)}`
+        );
+        $("#fulltime").text(
+          `${getDistanceTimeStr(fulltime)}`
+        );
+
+        $("#slider").val(kmMin * 60 + kmSec);
+      };
+
+      addToSelect(20, $("#minKm"));
+      addToSelect(59, $("#secKm"));
+      addToSelect(33, $("#minMi"));
+      addToSelect(59, $("#secMi"));
+
+      $("#slider").attr("max", 21 * 60 - 1);
+      $("#slider").val(0);
+
+      $("#minKm").on("input", () => {
+        let val = $("#minKm").val();
         console.log(`${val}`);
-        recompute('km');
-    });
+        recompute("km");
+      });
 
-    $('#secKm').on('input', () => {
-        let val = $('#secKm').val();
+      $("#secKm").on("input", () => {
+        let val = $("#secKm").val();
         console.log(`${val}`);
-        recompute('km');
-    });
+        recompute("km");
+      });
 
-    $('#slider').on('input', () => {
-        let val = $('#slider').val();
+      $("#slider").on("input", () => {
+        let val = $("#slider").val();
         let min = Math.floor(val / 60);
         let sec = val % 60;
         console.log(`${val}`);
-        $('#minKm').val(min);
-        $('#secKm').val(sec);
-        recompute('km');
-    });
+        $("#minKm").val(min);
+        $("#secKm").val(sec);
+        recompute("km");
+      });
 
-    $('#minMi').on('input', () => {
-        let val = $('#minMi').val();
+      $("#minMi").on("input", () => {
+        let val = $("#minMi").val();
         console.log(`${val}`);
-        recompute('mi');
-    });
+        recompute("mi");
+      });
 
-    $('#secMi').on('input', () => {
-        let val = $('#secMi').val();
+      $("#secMi").on("input", () => {
+        let val = $("#secMi").val();
         console.log(`${val}`);
-        recompute('mi');
-    });
+        recompute("mi");
+      });
     </script>
-
   </body>
-
 </html>
