@@ -144,14 +144,9 @@
       const FULL_DISTANCE = 42.195;
 
       function formatTime(number) {
-        number = Math.floor(number);
-        let numberString = number.toString();
+        number = number.toFixed(0);
 
-        if (numberString.length === 1) {
-          numberString = "0" + numberString;
-        }
-
-        return numberString;
+        return number.toString().padStart(2, '0');
       }
 
       addToSelect = function (range, select) {
@@ -160,14 +155,14 @@
           items.push({ value: i, text: `${i}`.padStart(2, "0") });
         }
 
-        $.each(items, function (i, item) {
+        for (let item of items) {
           select.append(
             $("<option>", {
               value: item.value,
               text: item.text,
             })
           );
-        });
+        }
       };
 
       getDistanceTimeStr = function(time) {
